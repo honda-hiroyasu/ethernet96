@@ -4,7 +4,7 @@
 #*****************************************************************************************
 
 # Check the version of Vivado used
-set version_required "2020.2"
+set version_required "2023.1"
 set ver [lindex [split $::env(XILINX_VIVADO) /] end]
 if {![string equal $ver $version_required]} {
   puts "###############################"
@@ -23,10 +23,10 @@ if {$board_ver == "1"} {
   set board_part "em.avnet.com:ultra96v1:part0:1.2"
   set design_name ps_gem_v1
 } elseif {$board_ver == "2"} {
-  set board_part "em.avnet.com:ultra96v2:part0:1.0"
+  set board_part "avnet.com:ultra96v2:part0:1.2"
   set design_name ps_gem_v2
 } else {
-  set board_part "em.avnet.com:ultra96v2:part0:1.0"
+  set board_part "avnet.com:ultra96v2:part0:1.2"
   set design_name ps_gem_v2
   puts "Board version incorrect or not specified - defaulting to v2."
   puts "You must specify a valid Ultra96 board version as an argument when"
@@ -40,7 +40,7 @@ set origin_dir "."
 set orig_proj_dir "[file normalize "$origin_dir/$design_name"]"
 
 # Create project
-create_project $design_name $origin_dir/$design_name -part xczu3eg-sbva484-1-e
+create_project $design_name $origin_dir/$design_name -part xczu3eg-sbva484-1-i
 
 # Set the directory path for the new project
 set proj_dir [get_property directory [current_project]]
@@ -98,10 +98,10 @@ set_property "top" "${design_name}_wrapper" $obj
 
 # Create 'synth_1' run (if not found)
 if {[string equal [get_runs -quiet synth_1] ""]} {
-    create_run -name synth_1 -part xczu3eg-sbva484-1-e -flow {Vivado Synthesis 2020} -strategy "Vivado Synthesis Defaults" -report_strategy {No Reports} -constrset constrs_1
+    create_run -name synth_1 -part xczu3eg-sbva484-1-e -flow {Vivado Synthesis 2023} -strategy "Vivado Synthesis Defaults" -report_strategy {No Reports} -constrset constrs_1
 } else {
   set_property strategy "Vivado Synthesis Defaults" [get_runs synth_1]
-  set_property flow "Vivado Synthesis 2020" [get_runs synth_1]
+  set_property flow "Vivado Synthesis 2023" [get_runs synth_1]
 }
 set obj [get_runs synth_1]
 
@@ -110,10 +110,10 @@ current_run -synthesis [get_runs synth_1]
 
 # Create 'impl_1' run (if not found)
 if {[string equal [get_runs -quiet impl_1] ""]} {
-    create_run -name impl_1 -part xczu3eg-sbva484-1-e -flow {Vivado Implementation 2020} -strategy "Vivado Implementation Defaults" -report_strategy {No Reports} -constrset constrs_1 -parent_run synth_1
+    create_run -name impl_1 -part xczu3eg-sbva484-1-e -flow {Vivado Implementation 2023} -strategy "Vivado Implementation Defaults" -report_strategy {No Reports} -constrset constrs_1 -parent_run synth_1
 } else {
   set_property strategy "Vivado Implementation Defaults" [get_runs impl_1]
-  set_property flow "Vivado Implementation 2020" [get_runs impl_1]
+  set_property flow "Vivado Implementation 2023" [get_runs impl_1]
 }
 set obj [get_runs impl_1]
 set_property -name "steps.write_bitstream.args.readback_file" -value "0" -objects $obj

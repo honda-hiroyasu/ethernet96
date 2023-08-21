@@ -1,4 +1,4 @@
-SET vivado=C:\Xilinx\Vivado\2020.2\bin\vivado.bat
+SET vivado=C:\Xilinx\Vivado\2023.1\bin\vivado.bat
 @ECHO OFF
 ECHO.
 ECHO ################################
